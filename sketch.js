@@ -1,55 +1,35 @@
+// Ball properties
+let ball = {
+  x: 100,       // X position
+  y: 100,       // Y position
+  diameter: 50,  // Diameter
+  xSpeed: 5,     // X velocity
+  ySpeed: 3      // Y velocity
+};
+
 function setup() {
-  createCanvas(400, 400);
-  angleMode(DEGREES);
+  createCanvas(600, 400);  // Create a canvas with width 600 and height 400
+  noStroke();             // Disable the outline of shapes
 }
 
 function draw() {
-  background(255);
-  translate(width / 2, height / 2);
-  rotate(-90);
+  background(220);        // Clear the screen with a light gray background
+  
+  // Update ball position
+  ball.x += ball.xSpeed;
+  ball.y += ball.ySpeed;
+  
+  // Draw the ball
+  fill(255, 0, 0);        // Set the ball color to red
+  ellipse(ball.x, ball.y, ball.diameter, ball.diameter);
 
-  let hr = hour();
-  let mn = minute();
-  let sc = second();
+  // Check for collision with the left or right edge
+  if (ball.x < ball.diameter / 2 || ball.x > width - ball.diameter / 2) {
+    ball.xSpeed *= -1;   // Reverse the horizontal direction
+  }
 
-  strokeWeight(7);
-  noFill();
-
-  // Seconds
-  stroke(350, 120, 490);
-  let secondAngle = map(sc, 0, 60, 0, 360);
-  arc(0, 0, 300, 300, 0, secondAngle);
-
-  // Minutes
-  stroke(150, 100, 255);
-  let minuteAngle = map(mn, 0, 60, 0, 360);
-  arc(0, 0, 280, 280, 0, minuteAngle);
-
-  // Hours
-  stroke(100, 255, 150);
-  let hourAngle = map(hr % 12, 0, 12, 0, 360);
-  arc(0, 0, 260, 260, 0, hourAngle);
-
-  // Drawing the hands
-  push();
-  rotate(secondAngle);
-  stroke(255, 100, 150);
-  line(0, 0, 100, 0);
-  pop();
-
-  push();
-  rotate(minuteAngle);
-  stroke(150, 100, 255);
-  line(0, 0, 75, 0);
-  pop();
-
-  push();
-  rotate(hourAngle);
-  stroke(100, 255, 150);
-  line(0, 0, 50, 0);
-  pop();
-
-  // Center point
-  stroke(0);
-  point(0, 0);
+  // Check for collision with the top or bottom edge
+  if (ball.y < ball.diameter / 2 || ball.y > height - ball.diameter / 2) {
+    ball.ySpeed *= -1;   // Reverse the vertical direction
+  }
 }
